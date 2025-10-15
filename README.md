@@ -1,25 +1,23 @@
 # Image Compression Tool
 
-## Overview
-This web application allows users to compress images by adjusting the compression level after uploading them. The original and compressed images are displayed side-by-side for easy comparison.
+This is a simple web application that allows users to upload an image and compress it. The tool displays both the original and compressed image sizes, and provides options to preview and download the compressed image.
 
 ## Features
-- User-friendly interface for image uploading and compression level adjustment.
-- Real-time preview of the original and compressed images.
-- Adjustable compression level slider.
-- Open compressed image in a new tab for easy download.
+- Upload an image
+- Adjust compression level
+- View original and compressed image sizes
+- Preview compressed image in a new tab
+- Download the compressed image
 
 ## Technologies Used
-- HTML5
-- CSS3
+- HTML
+- CSS
 - JavaScript
 
-## How to Run the Application
-1. Clone the repository or download the HTML file.
-2. Open the HTML file in a web browser.
-3. Upload an image file and adjust the compression slider.
-4. Click the 'Compress Image' button to see the compressed image.
-5. Click the 'Preview Compressed Image' link to view/download the compressed version.
-
-## License
-This project is licensed under the MIT License.
+## How to Use
+1. Upload an image using the file input.
+2. Adjust the compression level using the slider.
+3. Click on the 'Compress Image' button to process the image.
+4. View and compare the original and compressed images.
+5. Use the 'Preview Compressed Image' link to open the compressed image in a new tab.
+6. Click 'Download Compressed Image' to save the compressed image to your device.
