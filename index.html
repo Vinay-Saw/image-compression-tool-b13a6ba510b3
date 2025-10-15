@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Compression Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f0f4f8, #e6e9f0);
+            color: #333;
+            padding: 20px;
+            text-align: center;
+        }
+        #image-input, #image-output {
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background: #fff;
+            max-width: 600px;
+        }
+        input[type='file'] {
+            margin-bottom: 10px;
+        }
+        #compression-level {
+            margin: 10px 0;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            margin: 0 5px;
+            transition: background 0.3s;
+        }
+        .tab.active {
+            background: #007bff;
+            color: white;
+        }
+        .tab:hover {
+            background: #0056b3;
+            color: white;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Compression Tool</h1>
+    <div id="image-input">
+        <h2>Upload an Image</h2>
+        <input type="file" id="image-source" accept="image/*" />
+        <input type="range" id="compression-level" min="1" max="100" value="50"/>
+        <p>Compression Level: <span id="compression-value">50</span>%</p>
+        <button id="compress-btn">Compress Image</button>
+    </div>
+    <div id="image-output">
+        <h2>Comparison</h2>
+        <div class="tabs">
+            <div class="tab active" data-target="original">Original</div>
+            <div class="tab" data-target="compressed">Compressed</div>
+        </div>
+        <div id="image-preview">
+            <img id="original-image" src="" alt="Original Image" style="display:none;">
+            <img id="compressed-image" src="" alt="Compressed Image" style="display:none;">
+        </div>
+        <a id="preview-link" href="#" target="_blank">Preview Compressed Image</a>
+    </div>
+    <script>
+        document.getElementById('image-source').addEventListener('change', handleImageUpload);
+        document.getElementById('compression-level').addEventListener('input', function() {
+            document.getElementById('compression-value').innerText = this.value;
+        });
+        document.getElementById('compress-btn').addEventListener('click', compressImage);
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                toggleImages(this.dataset.target);
+            });
+        });
+
+        let originalImage, compressedImage;
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                originalImage = e.target.result;
+                document.getElementById('original-image').src = originalImage;
+                document.getElementById('original-image').style.display = 'block';
+                toggleImages('original');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function compressImage() {
+            // Example compression logic using a canvas.
+            const level = document.getElementById('compression-level').value / 100;
+            const img = new Image();
+            img.src = originalImage;
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                const dataUrl = canvas.toDataURL('image/jpeg', level);
+                compressedImage = dataUrl;
+                document.getElementById('compressed-image').src = compressedImage;
+                document.getElementById('compressed-image').style.display = 'block';
+                document.getElementById('preview-link').href = compressedImage;
+            };
+        }
+
+        function toggleImages(target) {
+            const original = document.getElementById('original-image');
+            const compressed = document.getElementById('compressed-image');
+            original.style.display = (target === 'original') ? 'block' : 'none';
+            compressed.style.display = (target === 'compressed') ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>
